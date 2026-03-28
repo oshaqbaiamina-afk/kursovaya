@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Жеке кабинет — Oylar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --indigo:#4F46E5;--indigo-d:#3730A3;--indigo-l:#EEF2FF;
+  --amber:#F59E0B;--amber-l:#FFFBEB;--amber-d:#92400E;
+  --rose:#F43F5E;--rose-l:#FFF1F2;--rose-d:#9F1239;
+  --sky:#0EA5E9;--sky-l:#F0F9FF;
+  --green:#10B981;--green-l:#ECFDF5;
+  --slate:#0F172A;--slate-600:#475569;--slate-300:#CBD5E1;--slate-100:#F1F5F9;
+  --white:#fff;
+}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--slate-100);color:var(--slate);min-height:100vh;display:flex;flex-direction:column}
+ 
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:68px;background:var(--white);border-bottom:1px solid var(--slate-300);position:sticky;top:0;z-index:50}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:38px;height:38px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.brand-mark svg{width:20px;height:20px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
+.brand-name{font-size:20px;font-weight:700;color:var(--slate);letter-spacing:-0.5px}
+.brand-name em{color:var(--indigo);font-style:normal}
+.nav-right{display:flex;gap:10px;align-items:center}
+.nav-username{font-size:14px;font-weight:600;color:var(--slate-600)}
+ 
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-ghost{background:transparent;color:var(--slate-600);border:1px solid var(--slate-300)}
+.btn-ghost:hover{background:var(--slate-100)}
+.btn-indigo{background:var(--indigo);color:white}
+.btn-indigo:hover{background:var(--indigo-d)}
+.btn-danger-soft{background:var(--rose-l);color:var(--rose);border:1px solid #FECDD3}
+.btn-danger-soft:hover{background:#FFE4E6}
+.btn-sm{padding:7px 14px;font-size:13px}
+ 
+/* LAYOUT */
+.page-body{display:flex;flex:1}
+ 
+/* SIDEBAR */
+.sidebar{width:260px;background:var(--white);border-right:1px solid var(--slate-300);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:9px;text-decoration:none;color:var(--slate-600);font-weight:600;font-size:14px;transition:all .15s;cursor:pointer;border:none;background:none;font-family:inherit;width:100%;text-align:left}
+.sidebar-link:hover{background:var(--slate-100);color:var(--slate)}
+.sidebar-link.active{background:var(--indigo-l);color:var(--indigo)}
+.sidebar-icon{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+ 
+/* MAIN CONTENT */
+.main-content{flex:1;padding:2.5rem 3rem;overflow-y:auto}
+.section{display:none;animation:fadeIn .2s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+ 
+.section-label{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--indigo);text-transform:uppercase;margin-bottom:.4rem}
+.section-title{font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--slate);margin-bottom:2rem}
+ 
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--slate-300);border-radius:16px;padding:1.5rem;margin-bottom:1.2rem}
+ 
+/* FORMS */
+.form-group{margin-bottom:1rem}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:5px}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--slate-300);border-radius:9px;font-size:14px;font-family:inherit;color:var(--slate);background:var(--white);outline:none;transition:border-color .15s,box-shadow .15s}
+.form-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+textarea.form-input{resize:vertical;min-height:80px}
+select.form-input{cursor:pointer;appearance:auto}
+ 
+/* PROFILE */
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--slate-100)}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--indigo);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;overflow:hidden;position:relative}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-edit-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;color:white;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase}
+.profile-avatar:hover .avatar-edit-overlay{display:flex}
+.profile-name{font-size:20px;font-weight:700;color:var(--slate)}
+.profile-email{font-size:14px;color:var(--slate-600);margin-top:2px}
+ 
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:var(--white);border:1px solid var(--slate-300);border-radius:14px;padding:1.2rem 1.5rem;text-align:center}
+.stat-num{font-size:28px;font-weight:700;color:var(--indigo)}
+.stat-lbl{font-size:13px;color:var(--slate-600);margin-top:3px}
+ 
+/* ═══════════════════════════════════════
+   САУАЛНАМА ЖАСАУШЫ — QUESTION BUILDER
+   ═══════════════════════════════════════ */
+.builder-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.builder-title{font-size:15px;font-weight:700;color:var(--slate)}
+.q-counter{font-size:13px;font-weight:600;color:var(--slate-600);background:var(--slate-100);padding:4px 12px;border-radius:999px}
+ 
+/* Сұрақ блогы */
+.question-block{border:1.5px solid var(--slate-300);border-radius:14px;padding:1.4rem;margin-bottom:1rem;background:var(--slate-100);transition:border-color .2s}
+.question-block:hover{border-color:var(--indigo)}
+.question-block .form-input{background:var(--white)}
+ 
+.q-block-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.q-block-num{font-size:11px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.8px;background:var(--indigo-l);padding:4px 10px;border-radius:999px}
+.q-delete-btn{width:28px;height:28px;border-radius:50%;background:none;border:1px solid var(--slate-300);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--slate-600);transition:all .15s;font-size:14px;line-height:1}
+.q-delete-btn:hover{background:var(--rose-l);border-color:#FECDD3;color:var(--rose)}
+ 
+/* Нұсқалар тізімі */
+.options-list{display:flex;flex-direction:column;gap:8px;margin-top:.8rem}
+.option-row{display:flex;align-items:center;gap:8px}
+.option-bullet{width:18px;height:18px;border-radius:50%;border:2px solid var(--slate-300);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.option-bullet.checkbox{border-radius:4px}
+.option-input{flex:1;padding:8px 12px;border:1.5px solid var(--slate-300);border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:border-color .15s;background:var(--white);color:var(--slate)}
+.option-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+.option-input::placeholder{color:var(--slate-300)}
+.option-del-btn{width:26px;height:26px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--slate-300);transition:color .15s;font-size:16px;padding:0}
+.option-del-btn:hover{color:var(--rose)}
+ 
+/* Нұсқа қосу батырмасы */
+.add-option-btn{display:flex;align-items:center;gap:6px;background:none;border:1.5px dashed var(--slate-300);border-radius:8px;color:var(--slate-600);font-size:13px;font-weight:600;font-family:inherit;padding:7px 14px;cursor:pointer;transition:all .15s;margin-top:4px;width:fit-content}
+.add-option-btn:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-l)}
+ 
+/* Жаңа сұрақ қосу */
+.add-question-btn{width:100%;border:2px dashed var(--slate-300);border-radius:14px;background:var(--white);color:var(--slate-600);font-size:14px;font-weight:600;font-family:inherit;padding:1.1rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.add-question-btn:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-l)}
+ 
+/* Мәтін жауап placeholder */
+.text-answer-preview{background:var(--white);border:1.5px dashed var(--slate-300);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--slate-300);margin-top:.8rem}
+ 
+/* Publish toggle */
+.publish-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;background:var(--indigo-l);border-radius:12px;border:1px solid rgba(79,70,229,.2);margin-bottom:1.2rem}
+.publish-label{font-size:14px;font-weight:600;color:var(--indigo-d)}
+.publish-sub{font-size:12px;color:var(--slate-600);margin-top:2px}
+.toggle{position:relative;width:44px;height:24px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--slate-300);border-radius:12px;transition:background .2s}
+.toggle input:checked+.toggle-track{background:var(--indigo)}
+.toggle-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:transform .2s;pointer-events:none}
+.toggle input:checked~.toggle-knob{transform:translateX(20px)}
+ 
+/* ALERTS */
+.alert{padding:11px 16px;border-radius:9px;font-size:14px;margin-bottom:1rem;display:none}
+.alert.show{display:flex;align-items:center;gap:8px}
+.alert-error{background:var(--rose-l);color:var(--rose-d);border:1px solid #FECDD3}
+.alert-success{background:var(--green-l);color:#065F46;border:1px solid #A7F3D0}
+ 
+/* SPINNER */
+.spinner{width:28px;height:28px;border:3px solid var(--slate-200);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;margin:2rem auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+ 
+/* SURVEY ROW */
+.survey-row{background:var(--white);border:1px solid var(--slate-300);border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;margin-bottom:10px;transition:border-color .15s}
+.survey-row:hover{border-color:var(--slate-300)}
+.survey-row-info{flex:1;min-width:0}
+.survey-row-title{font-size:15px;font-weight:700;color:var(--slate);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.survey-row-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.meta-txt{font-size:12px;color:var(--slate-600)}
+.badge-pub{background:var(--green-l);color:#047857;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.badge-draft{background:var(--slate-100);color:var(--slate-600);font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.survey-row-actions{display:flex;gap:8px;flex-shrink:0}
+ 
+/* EMPTY */
+.empty{text-align:center;padding:3rem 1rem;color:var(--slate-600)}
+ 
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:16px;padding:2rem;max-width:400px;width:90%}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:.5rem}
+.modal p{font-size:14px;color:var(--slate-600);margin-bottom:1.5rem;line-height:1.6}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+ 
+/* PROGRESS BARS */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.prog-label{font-size:13px;color:var(--slate-600);width:100px;flex-shrink:0}
+.prog-track{flex:1;height:8px;background:var(--slate-100);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;background:var(--indigo)}
+.prog-val{font-size:12px;font-weight:600;color:var(--slate);width:36px;text-align:right}
+ 
+/* FOOTER */
+.footer{background:var(--slate);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-size:15px;font-weight:700;color:white}
+.footer-brand em{color:#818CF8;font-style:normal}
+.footer-text{font-size:13px;color:rgba(255,255,255,.5)}
+ 
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main-content{padding:1.5rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav class="nav">
+  <a href="main.html" class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M4 8h4M16 8h4M4 16h4M16 16h4"/></svg>
+    </div>
+    <span class="brand-name"><em>Oylar</em></span>
+  </a>
+  <div class="nav-right" style="display:flex;align-items:center;gap:12px">
+    <div id="nav-avatar-wrap" style="width:32px;height:32px;border-radius:50%;overflow:hidden;display:none;border:1px solid var(--slate-100)">
+      <img id="nav-avatar-img" style="width:100%;height:100%;object-fit:cover">
+    </div>
+    <span class="nav-username" id="nav-name"></span>
+    <button class="btn btn-ghost btn-sm" onclick="logout()">Шығу</button>
+  </div>
+</nav>
+ 
+<div class="page-body">
+ 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="sidebar-link active" id="link-account" onclick="switchTab('account',this)">
+      <svg class="sidebar-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Жеке аккаунт
+    </button>
+    <button class="sidebar-link" id="link-create" onclick="switchTab('create',this)">
+      <svg class="sidebar-icon" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+      Сауалнама жасау
+    </button>
+    <button class="sidebar-link" id="link-surveys" onclick="switchTab('surveys',this)">
+      <svg class="sidebar-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Менің сауалнамаларым
+    </button>
+  </aside>
+ 
+  <!-- CONTENT -->
+  <main class="main-content">
+ 
+    <!-- ══ АККАУНТ ══════════════════════════════════════ -->
+    <section id="account" class="section active">
+      <div class="section-label">Баптаулар</div>
+      <div class="section-title">Жеке аккаунт</div>
+ 
+      <div class="card">
+        <form id="profile-form" onsubmit="updateProfile(event)">
+          <div class="profile-header">
+            <div class="profile-avatar" id="acc-avatar-wrap">
+              <span id="acc-avatar-text">—</span>
+              <img id="acc-avatar-img" style="display:none">
+              <label for="avatar-input" class="avatar-edit-overlay">Өзгерту</label>
+            </div>
+            <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="previewAvatar(event)">
+            <div style="flex:1">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Аты-жөні</label>
+                <input class="form-input" type="text" id="acc-name-input" placeholder="Атыңызды енгізіңіз">
+              </div>
+              <div class="profile-email" id="acc-email">—</div>
+            </div>
+          </div>
+          
+          <div id="profile-alert" class="alert"></div>
+
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-num" id="acc-total">—</div><div class="stat-lbl">Барлық сауалнама</div></div>
+            <div class="stat-card"><div class="stat-num" id="acc-pub">—</div><div class="stat-lbl">Жарияланған</div></div>
+            <div class="stat-card"><div class="stat-num" id="acc-resp">—</div><div class="stat-lbl">Жалпы жауап</div></div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:1rem;border-top:1px solid var(--slate-100)">
+            <button class="btn btn-indigo" type="submit" id="profile-save-btn">Өзгерістерді сақтау</button>
+          </div>
+        </form>
+      </div>
+ 
+      <div class="card" style="border-color:#FECDD3">
+        <h3 style="font-size:15px;font-weight:700;color:var(--rose);margin-bottom:.6rem">Аккаунттан шығу</h3>
+        <p style="font-size:14px;color:var(--slate-600);margin-bottom:1rem">Жүйеден шыққаннан кейін қайта кіру үшін email мен парольді енгізу керек.</p>
+        <button class="btn btn-danger-soft" onclick="logout()">Шығу</button>
+      </div>
+    </section>
+ 
+    <!-- ══ САУАЛНАМА ЖАСАУ ══════════════════════════════ -->
+    <section id="create" class="section">
+      <div class="section-label">Жаңа сауалнама</div>
+      <div class="section-title">Сауалнама жасау</div>
+ 
+      <div class="card">
+        <div class="alert alert-error" id="create-err"></div>
+        <div class="alert alert-success" id="create-ok"></div>
+ 
+        <!-- Негізгі ақпарат -->
+        <div class="form-group">
+          <label class="form-label">Сауалнама атауы *</label>
+          <input class="form-input" type="text" id="s-title" placeholder="Мысалы: Қызмет сапасын бағалау">
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem">
+          <label class="form-label">Сипаттама</label>
+          <textarea class="form-input" id="s-desc" placeholder="Сауалнама туралы қысқаша жазыңыз..." rows="3"></textarea>
+        </div>
+
+        <!-- Сұрақтар -->
+        <div class="builder-header">
+          <span class="builder-title">Сұрақтар</span>
+          <span class="q-counter" id="q-counter">0 сұрақ</span>
+        </div>
+ 
+        <div id="questions-container">
+          <!-- JS арқылы толтырылады -->
+        </div>
+ 
+        <button class="add-question-btn" onclick="addQuestion()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Жаңа сұрақ қосу
+        </button>
+ 
+        <!-- Жариялау параметрі -->
+        <div class="publish-row" style="margin-top:1.5rem">
+          <div>
+            <div class="publish-label">Жариялау</div>
+            <div class="publish-sub" id="publish-sub">Жарияланса барлық пайдаланушылар көре алады</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="publish-toggle" checked onchange="updatePublishLabel()">
+            <div class="toggle-track"></div>
+            <div class="toggle-knob"></div>
+          </label>
+        </div>
+ 
+        <!-- Footer батырмалар -->
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:1rem;border-top:1px solid var(--slate-100)">
+          <button class="btn btn-ghost" onclick="resetForm()">Тазалау</button>
+          <button class="btn btn-indigo" id="publish-btn" onclick="publishSurvey()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Жариялау
+          </button>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ══ МЕНІҢ САУАЛНАМАЛАРЫМ ═════════════════════════ -->
+    <section id="surveys" class="section">
+      <div class="section-label">Менің сауалнамаларым</div>
+      <div class="section-title" id="surveys-title">Жүктелуде...</div>
+      <div class="alert alert-error" id="surveys-err"></div>
+      <div id="surveys-list"><div class="spinner"></div></div>
+    </section>
+ 
+  </main>
+</div>
+ 
+<!-- ЖОЮ МОДАЛЫ -->
+<div class="modal-overlay" id="del-modal">
+  <div class="modal">
+    <h3>Сауалнаманы жою</h3>
+    <p>Бұл сауалнама және барлық жауаптар біржола жойылады. Бұл әрекетті кері қайтару мүмкін емес.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeDelModal()">Болдырмау</button>
+      <button class="btn btn-danger-soft" id="del-confirm-btn" onclick="confirmDelete()">Жою</button>
+    </div>
+  </div>
+</div>
+ 
+<footer class="footer">
+  <div class="footer-brand"><em>Oylar</em></div>
+  <div class="footer-text">© 2026 Oylar — Барлық құқықтар қорғалған</div>
+</footer>
+ 
+<script>
+// ── AUTH ────────────────────────────────────────────────
+const TOKEN = localStorage.getItem('token');
+const userDataStr = localStorage.getItem('user');
+const USER = userDataStr && userDataStr !== 'undefined' && userDataStr !== 'null' ? JSON.parse(userDataStr) : null;
+if (!TOKEN || !USER) window.location.href = '/login.html';
+ 
+// Nav
+document.getElementById('nav-name').textContent = USER?.name || '';
+ 
+// ── LOGOUT ──────────────────────────────────────────────
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}
+ 
+// ── API ─────────────────────────────────────────────────
+async function api(url, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN };
+  const res  = await fetch('/api' + url, { ...opts, headers });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Қате орын алды');
+  return data;
+}
+ 
+// ── TABS ────────────────────────────────────────────────
+function switchTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'surveys') loadMySurveys();
+  if (id === 'account') loadAccountInfo();
+}
+ 
+// ── АККАУНТ ─────────────────────────────────────────────
+async function loadAccountInfo() {
+  document.getElementById('acc-email').textContent  = USER.email;
+  document.getElementById('acc-name-input').value = USER.name;
+  
+  updateAvatarUI(USER.avatarUrl, USER.name);
+
+  try {
+    const data = await api('/auth/me');
+    localStorage.setItem('user', JSON.stringify(data));
+    document.getElementById('acc-name-input').value = data.name;
+    updateAvatarUI(data.avatarUrl, data.name);
+    
+    const surveys = await api('/surveys/my');
+    const pub  = surveys.filter(s => s.isPublished).length;
+    const resp = surveys.reduce((sum, s) => sum + (s.responseCount || 0), 0);
+    document.getElementById('acc-total').textContent = surveys.length;
+    document.getElementById('acc-pub').textContent   = pub;
+    document.getElementById('acc-resp').textContent  = resp;
+  } catch {}
+}
+
+function updateAvatarUI(avatarUrl, name) {
+  const img = document.getElementById('acc-avatar-img');
+  const txt = document.getElementById('acc-avatar-text');
+  const navName = document.getElementById('nav-name');
+  const navAvWrap = document.getElementById('nav-avatar-wrap');
+  const navAvImg = document.getElementById('nav-avatar-img');
+
+  if (avatarUrl) {
+    img.src = avatarUrl;
+    img.style.display = 'block';
+    txt.style.display = 'none';
+    if (navAvWrap) {
+      navAvWrap.style.display = 'block';
+      navAvImg.src = avatarUrl;
+    }
+  } else {
+    const init = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    txt.textContent = init;
+    txt.style.display = 'block';
+    img.style.display = 'none';
+    if (navAvWrap) navAvWrap.style.display = 'none';
+  }
+  
+  if (navName) navName.textContent = name;
+}
+
+function previewAvatar(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = (ex) => {
+    const img = document.getElementById('acc-avatar-img');
+    const txt = document.getElementById('acc-avatar-text');
+    img.src = ex.target.result;
+    img.style.display = 'block';
+    txt.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function updateProfile(e) {
+  e.preventDefault();
+  const name = document.getElementById('acc-name-input').value.trim();
+  const fileInput = document.getElementById('avatar-input');
+  const btn = document.getElementById('profile-save-btn');
+  const alert = document.getElementById('profile-alert');
+  
+  if (!name) return;
+  
+  btn.disabled = true;
+  btn.textContent = 'Сақталуда...';
+  alert.classList.remove('show', 'alert-error', 'alert-success');
+  
+  try {
+    const formData = new FormData();
+    formData.append('name', name);
+    if (fileInput.files[0]) {
+      formData.append('avatar', fileInput.files[0]);
+    }
+    
+    const res = await fetch('/api/auth/profile', {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + TOKEN },
+      body: formData
+    });
+    
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Профильді жаңарту мүмкін болмады');
+    
+    // Ensure data.user exists (defensive check)
+    const userData = data.user || data;
+    
+    localStorage.setItem('user', JSON.stringify(userData));
+    updateAvatarUI(userData.avatarUrl, userData.name);
+    
+    alert.textContent = '✓ Профиль жаңартылды';
+    alert.classList.add('show', 'alert-success');
+    
+    setTimeout(() => alert.classList.remove('show'), 3000);
+  } catch (err) {
+    alert.textContent = err.message;
+    alert.classList.add('show', 'alert-error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Өзгерістерді сақтау';
+  }
+}
+ 
+// ══════════════════════════════════════════════════════════
+// САУАЛНАМА ЖАСАУШЫ — толық жұмыс жасайтын нұсқа
+// ══════════════════════════════════════════════════════════
+ 
+let questions = [];
+
+// Сұрақ санауышын жаңарту
+function updateCounter() {
+  document.getElementById('q-counter').textContent = questions.length + ' сұрақ';
+}
+ 
+// Жариялау toggle мәтіні
+function updatePublishLabel() {
+  const checked = document.getElementById('publish-toggle').checked;
+  document.getElementById('publish-sub').textContent = checked
+    ? 'Жарияланса барлық пайдаланушылар көре алады'
+    : 'Черновик — тек сіз көресіз';
+}
+
+// Жаңа сұрақ қосу
+function addQuestion() {
+  questions.push({
+    text:    '',
+    type:    'radio',
+    options: ['', '']
+  });
+  renderQuestions();
+ 
+  // Жаңа сұраққа scroll
+  setTimeout(() => {
+    const blocks = document.querySelectorAll('.question-block');
+    if (blocks.length) {
+      blocks[blocks.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 60);
+}
+ 
+// Сұрақты жою
+function removeQuestion(idx) {
+  questions.splice(idx, 1);
+  renderQuestions();
+}
+ 
+// Жауап типін өзгерту
+function changeType(idx, type) {
+  questions[idx].type = type;
+  if (!['radio', 'checkbox', 'dropdown'].includes(type)) {
+    questions[idx].options = [];
+  } else if (!questions[idx].options.length) {
+    questions[idx].options = ['', ''];
+  }
+  renderQuestions();
+}
+ 
+// Нұсқа қосу
+function addOption(idx) {
+  questions[idx].options.push('');
+  renderQuestions();
+ 
+  // Жаңа нұсқаға focus
+  setTimeout(() => {
+    const optInputs = document.querySelectorAll(`#opts-${idx} .option-input`);
+    if (optInputs.length) optInputs[optInputs.length - 1].focus();
+  }, 30);
+}
+ 
+// Нұсқаны жою
+function removeOption(qIdx, oIdx) {
+  if (questions[qIdx].options.length <= 2) {
+    showAlert('create-err', 'Кем дегенде 2 нұсқа болуы керек');
+    return;
+  }
+  questions[qIdx].options.splice(oIdx, 1);
+  renderQuestions();
+}
+ 
+// Сұрақ мәтінін сақтау (blur-да емес, render-да)
+function syncQuestionText(idx) {
+  const el = document.getElementById('qtext-' + idx);
+  if (el) questions[idx].text = el.value;
+}
+ 
+function syncOptionText(qIdx, oIdx) {
+  const el = document.getElementById(`opt-${qIdx}-${oIdx}`);
+  if (el) questions[qIdx].options[oIdx] = el.value;
+}
+ 
+// ── RENDER — барлық сұрақтарды HTML-ге шығару ───────────
+function renderQuestions() {
+  updateCounter();
+  const container = document.getElementById('questions-container');
+ 
+  if (!questions.length) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:2rem;color:var(--slate-600);font-size:14px;background:var(--white);border-radius:12px;border:1px dashed var(--slate-300);margin-bottom:1rem">
+        Сұрақ жоқ — төмендегі батырмамен қосыңыз
+      </div>`;
+    return;
+  }
+ 
+  container.innerHTML = questions.map((q, i) => `
+    <div class="question-block" id="qblock-${i}">
+ 
+      <div class="q-block-header">
+        <span class="q-block-num">${i + 1}-сұрақ</span>
+        <button class="q-delete-btn" onclick="removeQuestion(${i})" title="Сұрақты жою">✕</button>
+      </div>
+ 
+      <!-- Сұрақ мәтіні -->
+      <div class="form-group">
+        <label class="form-label">Сұрақ мәтіні</label>
+        <input class="form-input" type="text" id="qtext-${i}"
+          placeholder="Сұрақты енгізіңіз..."
+          value="${escVal(q.text)}"
+          oninput="questions[${i}].text = this.value">
+      </div>
+ 
+      <!-- Жауап типі -->
+      <div class="form-group">
+        <label class="form-label">Жауап түрі</label>
+        <select class="form-input" onchange="changeType(${i}, this.value)">
+          <option value="radio"    ${q.type === 'radio'    ? 'selected' : ''}>Бір нұсқаны таңдау</option>
+          <option value="checkbox" ${q.type === 'checkbox' ? 'selected' : ''}>Бірнеше нұсқа таңдау</option>
+          <option value="dropdown" ${q.type === 'dropdown' ? 'selected' : ''}>Ашылмалы тізім</option>
+          <option value="text"     ${q.type === 'text'     ? 'selected' : ''}>Мәтіндік жауап</option>
+          <option value="rating"   ${q.type === 'rating'   ? 'selected' : ''}>Бағалау (1-5 жұлдыз)</option>
+          <option value="scale"    ${q.type === 'scale'    ? 'selected' : ''}>Сызықтық шкала (1-10)</option>
+          <option value="date"     ${q.type === 'date'     ? 'selected' : ''}>Күн (Дата)</option>
+          <option value="time"     ${q.type === 'time'     ? 'selected' : ''}>Уақыт (Время)</option>
+          <option value="number"   ${q.type === 'number'   ? 'selected' : ''}>Сандық жауап</option>
+          <option value="email"    ${q.type === 'email'    ? 'selected' : ''}>Электрондық пошта</option>
+        </select>
+      </div>
+ 
+      <!-- Нұсқалар -->
+      ${['radio', 'checkbox', 'dropdown'].includes(q.type) ? `
+        <div class="form-group">
+          <label class="form-label">Нұсқалар</label>
+          <div class="options-list" id="opts-${i}">
+            ${q.options.map((opt, oi) => `
+              <div class="option-row" id="optrow-${i}-${oi}">
+                <div class="option-bullet ${q.type === 'checkbox' ? 'checkbox' : ''}"></div>
+                <input class="option-input" type="text" id="opt-${i}-${oi}"
+                  placeholder="${oi + 1}-нұсқа"
+                  value="${escVal(opt)}"
+                  oninput="questions[${i}].options[${oi}] = this.value"
+                  onkeydown="handleOptKeydown(event, ${i}, ${oi})">
+                ${q.options.length > 2 ? `
+                  <button class="option-del-btn" onclick="removeOption(${i}, ${oi})" title="Нұсқаны жою">✕</button>
+                ` : `<div style="width:26px"></div>`}
+              </div>
+            `).join('')}
+          </div>
+          <button class="add-option-btn" onclick="addOption(${i})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Нұсқа қосу
+          </button>
+        </div>
+      ` : `
+        <div class="text-answer-preview">
+          ${q.type === 'text' ? 'Пайдаланушы мәтін еркін жазады...' : ''}
+          ${q.type === 'rating' ? 'Пайдаланушы 1-ден 5-ке дейін жұлдызшалармен бағалайды...' : ''}
+          ${q.type === 'scale' ? 'Пайдаланушы 1-ден 10-ға дейін бағалайды...' : ''}
+          ${q.type === 'date' ? 'Пайдаланушы күнтізбеден күнді таңдайды...' : ''}
+          ${q.type === 'time' ? 'Пайдаланушы уақытты көрсетеді...' : ''}
+          ${q.type === 'number' ? 'Пайдаланушы тек сандар енгізе алады...' : ''}
+          ${q.type === 'email' ? 'Пайдаланушы электрондық поштасын енгізеді...' : ''}
+        </div>
+      `}
+ 
+    </div>
+  `).join('');
+}
+ 
+// Enter басқанда жаңа нұсқа қосу
+function handleOptKeydown(e, qIdx, oIdx) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    // Соңғы нұсқа болса — жаңа қос
+    if (oIdx === questions[qIdx].options.length - 1) {
+      addOption(qIdx);
+    } else {
+      // Келесі нұсқаға focus
+      const next = document.getElementById(`opt-${qIdx}-${oIdx + 1}`);
+      if (next) next.focus();
+    }
+  }
+}
+ 
+// Форманы тазалау
+function resetForm() {
+  document.getElementById('s-title').value = '';
+  document.getElementById('s-desc').value  = '';
+  document.getElementById('publish-toggle').checked = true;
+  updatePublishLabel();
+  questions = [];
+  renderQuestions();
+  hideAlerts();
+}
+ 
+function hideAlerts() {
+  document.getElementById('create-err').classList.remove('show');
+  document.getElementById('create-ok').classList.remove('show');
+}
+ 
+function showAlert(id, msg, type = 'error') {
+  hideAlerts();
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  if (type === 'success') el.style.color = '';
+}
+ 
+// ── ЖАРИЯЛАУ ────────────────────────────────────────────
+async function publishSurvey() {
+  const title       = document.getElementById('s-title').value.trim();
+  const description = document.getElementById('s-desc').value.trim();
+  const isPublished = document.getElementById('publish-toggle').checked;
+  const btn         = document.getElementById('publish-btn');
+ 
+  hideAlerts();
+ 
+  // Валидация
+  if (!title) {
+    showAlert('create-err', 'Сауалнама атауын енгізіңіз');
+    document.getElementById('s-title').focus();
+    return;
+  }
+  if (!questions.length) {
+    showAlert('create-err', 'Кем дегенде 1 сұрақ қосыңыз');
+    return;
+  }
+ 
+  // Сұрақтарды тексеру
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    if (!q.text.trim()) {
+      showAlert('create-err', `${i + 1}-сұрақтың мәтінін енгізіңіз`);
+      document.getElementById('qtext-' + i)?.focus();
+      return;
+    }
+    if (['radio', 'checkbox', 'dropdown'].includes(q.type)) {
+      const filled = q.options.filter(o => o.trim());
+      if (filled.length < 2) {
+        showAlert('create-err', `${i + 1}-сұрақта кем дегенде 2 нұсқа толтырыңыз`);
+        return;
+      }
+      questions[i].options = filled; // бос нұсқаларды тазала
+    }
+  }
+ 
+  // Жіберу
+  btn.disabled    = true;
+  btn.textContent = 'Жіберілуде...';
+ 
+  try {
+    await api('/surveys', {
+      method: 'POST',
+      body: JSON.stringify({ title, description, questions, isPublished }),
+    });
+ 
+    showAlert('create-ok',
+      isPublished ? '✓ Сауалнама жарияланды!' : '✓ Черновик сақталды!',
+      'success');
+    document.getElementById('create-ok').style.background = 'var(--green-l)';
+    document.getElementById('create-ok').style.color = '#065F46';
+    document.getElementById('create-ok').style.border = '1px solid #A7F3D0';
+ 
+    // Форманы тазала
+    setTimeout(() => {
+      resetForm();
+      // "Менің сауалнамаларым" табына өт
+      switchTab('surveys', document.getElementById('link-surveys'));
+    }, 1500);
+ 
+  } catch (err) {
+    showAlert('create-err', err.message);
+  } finally {
+    btn.disabled    = false;
+    btn.innerHTML   = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Жариялау`;
+  }
+}
+ 
+// ══════════════════════════════════════════════════════════
+// МЕНІҢ САУАЛНАМАЛАРЫМ
+// ══════════════════════════════════════════════════════════
+ 
+let mySurveys = [];
+let deleteId  = null;
+ 
+async function loadMySurveys() {
+  document.getElementById('surveys-list').innerHTML = '<div class="spinner"></div>';
+  document.getElementById('surveys-err').classList.remove('show');
+  try {
+    mySurveys = await api('/surveys/my');
+    document.getElementById('surveys-title').textContent =
+      `Менің сауалнамаларым (${mySurveys.length})`;
+    renderMySurveys();
+  } catch (err) {
+    document.getElementById('surveys-err').textContent = err.message;
+    document.getElementById('surveys-err').classList.add('show');
+    document.getElementById('surveys-list').innerHTML = '';
+  }
+}
+ 
+function renderMySurveys() {
+  const list = document.getElementById('surveys-list');
+  if (!mySurveys.length) {
+    list.innerHTML = `
+      <div class="empty">
+        <p style="margin-bottom:1rem">Сауалнамалар жоқ</p>
+        <button class="btn btn-indigo btn-sm" onclick="switchTab('create', document.getElementById('link-create'))">
+          + Жаңа сауалнама жасау
+        </button>
+      </div>`;
+    return;
+  }
+ 
+  list.innerHTML = mySurveys.map(s => `
+    <div class="survey-row">
+      <div class="survey-row-info">
+        <div class="survey-row-title">${esc(s.title)}</div>
+        <div class="survey-row-meta">
+          <span class="${s.isPublished ? 'badge-pub' : 'badge-draft'}">
+            ${s.isPublished ? '● Жарияланған' : '○ Черновик'}
+          </span>
+          <span class="meta-txt">${s.questions?.length || 0} сұрақ</span>
+          <span class="meta-txt">·</span>
+          <span class="meta-txt">${s.responseCount || 0} жауап</span>
+          <span class="meta-txt">·</span>
+          <span class="meta-txt">${timeAgo(s.createdAt)}</span>
+        </div>
+      </div>
+      <div class="survey-row-actions">
+        ${s.isPublished
+          ? `<button class="btn btn-ghost btn-sm" onclick="copySurveyLink('${s.id}')" title="Сілтемені көшіру" style="padding:4px 8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+             <a href="/main.html?survey=${s.id}" class="btn btn-ghost btn-sm" target="_blank">Қарау</a>`
+          : ''}
+        <button class="btn btn-ghost btn-sm"
+          onclick="togglePublish('${s.id}', ${s.isPublished})">
+          ${s.isPublished ? 'Черновикке' : 'Жариялау'}
+        </button>
+        <button class="btn btn-danger-soft btn-sm"
+          onclick="askDelete('${s.id}')">Жою</button>
+      </div>
+    </div>
+  `).join('');
+}
+ 
+async function togglePublish(id, current) {
+  try {
+    await api('/surveys/' + id, {
+      method: 'PUT',
+      body: JSON.stringify({ isPublished: !current }),
+    });
+    loadMySurveys();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+ 
+function askDelete(id) {
+  deleteId = id;
+  document.getElementById('del-modal').classList.add('open');
+}
+function closeDelModal() {
+  deleteId = null;
+  document.getElementById('del-modal').classList.remove('open');
+}
+async function confirmDelete() {
+  const btn = document.getElementById('del-confirm-btn');
+  btn.disabled    = true;
+  btn.textContent = 'Жойылуда...';
+  try {
+    await api('/surveys/' + deleteId, { method: 'DELETE' });
+    closeDelModal();
+    loadMySurveys();
+  } catch (err) {
+    alert(err.message);
+    closeDelModal();
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Жою';
+  }
+}
+document.getElementById('del-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDelModal();
+});
+ 
+// ── HELPERS ─────────────────────────────────────────────
+function copySurveyLink(id) {
+  const link = window.location.origin + '/main.html?survey=' + id;
+  navigator.clipboard.writeText(link).then(() => {
+    alert('Сілтеме көшірілді: ' + link);
+  }).catch(() => {
+    prompt('Сілтемені көшіріп алыңыз:', link);
+  });
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escVal(s) {
+  return String(s || '').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+function timeAgo(d) {
+  const m = Math.floor((Date.now() - new Date(d)) / 60000);
+  if (m < 1)  return 'Жаңа ғана';
+  if (m < 60) return m + ' мин. бұрын';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + ' сағ. бұрын';
+  return Math.floor(h / 24) + ' күн бұрын';
+}
+ 
+// ── INIT ─────────────────────────────────────────────────
+loadAccountInfo();
+renderQuestions(); // бастапқы бос күй
+</script>
+</body>
+</html>
+ 

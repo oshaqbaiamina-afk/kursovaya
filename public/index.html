@@ -1,0 +1,396 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --indigo:#4F46E5;--indigo-d:#3730A3;--indigo-l:#EEF2FF;
+  --amber:#F59E0B;--amber-l:#FFFBEB;--amber-d:#92400E;
+  --rose:#F43F5E;--rose-l:#FFF1F2;--rose-d:#9F1239;
+  --sky:#0EA5E9;--sky-l:#F0F9FF;
+  --slate:#0F172A;--slate-600:#475569;--slate-300:#CBD5E1;--slate-100:#F1F5F9;
+  --white:#fff;
+}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--white);color:var(--slate)}
+
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:68px;background:var(--white);border-bottom:1px solid var(--slate-300)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:38px;height:38px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.brand-mark svg{width:20px;height:20px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
+.brand-name{font-size:20px;font-weight:700;color:var(--slate);letter-spacing:-0.5px}
+.brand-name em{color:var(--indigo);font-style:normal}
+.nav-right{display:flex;gap:10px;align-items:center}
+.btn{padding:9px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
+.btn-ghost{background:transparent;color:var(--slate-600);border:1px solid var(--slate-300)}
+.btn-ghost:hover{background:var(--slate-100)}
+.btn-indigo{background:var(--indigo);color:white}
+.btn-indigo:hover{background:var(--indigo-d)}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:560px;background:var(--white)}
+.hero-left{padding:5rem 2.5rem 4rem 2.5rem;display:flex;flex-direction:column;justify-content:center}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:var(--indigo-l);color:var(--indigo-d);font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:1.5rem;letter-spacing:.3px}
+.hero-pill-dot{width:7px;height:7px;border-radius:50%;background:var(--indigo)}
+.hero h1{font-size:44px;font-weight:700;line-height:1.15;letter-spacing:-1px;color:var(--slate);margin-bottom:1.2rem}
+.hero h1 mark{background:none;color:var(--indigo);border-bottom:3px solid var(--amber)}
+.hero-p{font-size:16px;color:var(--slate-600);line-height:1.7;max-width:400px;margin-bottom:2rem}
+.hero-btns{display:flex;gap:12px;margin-bottom:2.5rem}
+.btn-lg{padding:13px 28px;font-size:15px}
+.hero-trust{display:flex;align-items:center;gap:10px}
+.trust-faces{display:flex}
+.face{width:32px;height:32px;border-radius:50%;border:2.5px solid white;margin-left:-8px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;color:white}
+.face:first-child{margin-left:0}
+.trust-text{font-size:13px;color:var(--slate-600)}
+.trust-text strong{color:var(--slate);font-weight:600}
+
+/* HERO RIGHT — illustrated photo collage */
+.hero-right{background:var(--indigo-l);display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden}
+.hero-visual{width:100%;max-width:420px;position:relative}
+.photo-main{width:100%;height:280px;border-radius:20px;overflow:hidden;background:var(--slate-300);position:relative}
+.photo-main img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-main-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#c7d2fe 0%,#a5b4fc 100%);display:flex;align-items:center;justify-content:center}
+.photo-float{position:absolute;background:white;border-radius:14px;padding:12px 16px;border:1px solid var(--slate-300)}
+.float-top{top:-18px;right:20px}
+.float-bot{bottom:-18px;left:20px}
+.float-label{font-size:11px;color:var(--slate-600);font-weight:500;margin-bottom:4px}
+.float-val{font-size:20px;font-weight:700;color:var(--indigo)}
+.float-sub{font-size:11px;color:var(--slate-600)}
+.sparkbar{display:flex;gap:3px;margin-top:6px;align-items:flex-end;height:24px}
+.spk{border-radius:3px;width:8px;background:var(--indigo);opacity:.3}
+.spk.hi{opacity:1}
+.float-bot2{position:absolute;bottom:30px;right:-18px;background:white;border-radius:12px;padding:10px 14px;border:1px solid var(--slate-300)}
+.face-row{display:flex;margin-bottom:4px}
+.stars{color:var(--amber);font-size:12px;letter-spacing:1px}
+
+/* STATS STRIP */
+.stats{background:var(--indigo);padding:2rem 2.5rem;display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem}
+.stat{text-align:center}
+.stat-n{font-size:28px;font-weight:700;color:white}
+.stat-l{font-size:13px;color:rgba(255,255,255,.7);margin-top:2px}
+
+/* HOW IT WORKS */
+.how{padding:5rem 2.5rem;background:var(--white)}
+.sec-label{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--indigo);text-transform:uppercase;margin-bottom:.5rem}
+.sec-title{font-size:30px;font-weight:700;color:var(--slate);letter-spacing:-.5px;margin-bottom:.5rem;line-height:1.3}
+.sec-sub{font-size:15px;color:var(--slate-600);margin-bottom:3rem;max-width:480px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.step-card{padding:2rem;border-radius:16px;border:1px solid var(--slate-300);background:var(--white);transition:all .2s}
+.step-card:hover{border-color:var(--indigo);transform:translateY(-3px)}
+.step-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin-bottom:1.2rem}
+.num-1{background:var(--indigo-l);color:var(--indigo)}
+.num-2{background:var(--amber-l);color:var(--amber-d)}
+.num-3{background:var(--rose-l);color:var(--rose-d)}
+.step-title{font-size:16px;font-weight:700;color:var(--slate);margin-bottom:.5rem}
+.step-desc{font-size:14px;color:var(--slate-600);line-height:1.7}
+
+/* DEMO SURVEY */
+.demo-sec{background:var(--slate-100);padding:5rem 2.5rem}
+.demo-wrap{max-width:600px;margin:0 auto}
+.survey-card{background:var(--white);border-radius:20px;border:1px solid var(--slate-300);overflow:hidden}
+.survey-top{background:var(--indigo);padding:1.5rem 2rem;position:relative}
+.survey-top h3{color:white;font-size:17px;font-weight:700;margin-bottom:3px}
+.survey-top p{color:rgba(255,255,255,.75);font-size:13px}
+.prog-track{height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:1rem}
+.prog-fill{height:100%;border-radius:2px;background:var(--amber);transition:width .4s}
+.survey-body{padding:2rem}
+.q-tag{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--indigo);text-transform:uppercase;margin-bottom:.7rem}
+.q-text{font-size:17px;font-weight:600;color:var(--slate);margin-bottom:1.5rem;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid var(--slate-300);border-radius:12px;cursor:pointer;transition:all .15s;font-family:inherit}
+.opt:hover{border-color:var(--indigo);background:var(--indigo-l)}
+.opt.sel{border-color:var(--indigo);background:var(--indigo-l)}
+.opt-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--slate-300);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.opt.sel .opt-radio{border-color:var(--indigo);background:var(--indigo)}
+.opt.sel .opt-radio::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
+.opt-txt{font-size:14px;color:var(--slate);font-weight:500}
+.survey-foot{padding:1.5rem 2rem;border-top:1px solid var(--slate-100);display:flex;justify-content:space-between;align-items:center}
+.foot-step{font-size:13px;color:var(--slate-600)}
+.foot-btns{display:flex;gap:10px}
+.sbtn{padding:10px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.sbtn-prev{background:var(--slate-100);border:1px solid var(--slate-300);color:var(--slate-600)}
+.sbtn-next{background:var(--indigo);border:none;color:white}
+.sbtn-next:hover{background:var(--indigo-d)}
+
+/* PHOTOS SECTION */
+.photos-sec{padding:5rem 2.5rem;background:var(--white)}
+.photos-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:16px;max-width:900px;margin:0 auto}
+.photo-card{border-radius:16px;overflow:hidden;background:var(--slate-100);position:relative}
+.photo-card.big{grid-row:span 2}
+.photo-fill{width:100%;height:100%;object-fit:cover;display:block}
+.photo-placeholder{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;height:100%;min-height:200px}
+.photo-badge{position:absolute;bottom:12px;left:12px;background:white;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--slate)}
+.photo-badge.indigo{background:var(--indigo);color:white}
+
+/* RESULTS SECTION */
+.results-sec{background:var(--slate-100);padding:5rem 2.5rem}
+.results-inner{max-width:820px;margin:0 auto}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.res-card{background:var(--white);border-radius:16px;border:1px solid var(--slate-300);padding:1.5rem}
+.res-card h4{font-size:14px;font-weight:700;color:var(--slate);margin-bottom:1.2rem}
+.bar-r{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-lbl{font-size:12px;color:var(--slate-600);width:80px;flex-shrink:0}
+.bar-trk{flex:1;height:8px;background:var(--slate-100);border-radius:4px;overflow:hidden}
+.bar-f{height:100%;border-radius:4px;transition:width .6s}
+.bar-pct{font-size:12px;font-weight:600;color:var(--slate);width:34px;text-align:right}
+.metrics{display:flex;flex-direction:column;gap:0}
+.mrow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--slate-100)}
+.mrow:last-child{border:none}
+.mlbl{font-size:13px;color:var(--slate-600)}
+.mval{font-size:13px;font-weight:700;color:var(--slate)}
+
+/* CTA */
+.cta{background:var(--indigo);padding:5rem 2.5rem;text-align:center}
+.cta h2{font-size:32px;font-weight:700;color:white;letter-spacing:-.5px;margin-bottom:1rem}
+.cta p{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:2rem}
+.cta-btn{padding:14px 36px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;border:none;background:var(--amber);color:var(--amber-d);font-family:inherit;transition:all .15s}
+.cta-btn:hover{background:white;color:var(--indigo)}
+
+/* FOOTER */
+.footer{background:var(--slate);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-size:16px;font-weight:700;color:white}
+.footer-brand em{color:#818CF8;font-style:normal}
+.footer-text{font-size:13px;color:rgba(255,255,255,.5)}
+</style>
+
+<div>
+<nav class="nav">
+  <a href="index.html" class="brand" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') { window.location.reload(); return false; }" style="text-decoration:none;">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M4 8h4M16 8h4M4 16h4M16 16h4"/></svg>
+    </div>
+    <span class="brand-name"><em>Oylar</em></span>
+  </a>
+  <div class="nav-right" id="nav-right">
+    <a href="login.html" class="btn btn-ghost">Кіру</a>
+    <a href="register.html" class="btn btn-indigo">Тіркелу</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-pill"><div class="hero-pill-dot"></div>Қазақстан №1 пікір платформасы</div>
+    <h1>Сауалнама жасаңыз,<br><mark>нәтиже алыңыз</mark></h1>
+    <p class="hero-p">Кез келген мақсатқа — бизнес, оқу, зерттеу. Минутта сауалнама жасап, нақты уақытта деректер жинаңыз.</p>
+    <div class="hero-btns">
+      <button class="btn btn-indigo btn-lg" onclick="document.getElementById('demo-sec').scrollIntoView({behavior:'smooth'})">Тегін бастау</button>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-faces">
+        <div class="face" style="background:#4F46E5">АС</div>
+        <div class="face" style="background:#F59E0B">ДМ</div>
+        <div class="face" style="background:#F43F5E">НК</div>
+        <div class="face" style="background:#0EA5E9">БЕ</div>
+      </div>
+      <div class="trust-text"><strong id="idx-users1">12 000+</strong> пайдаланушы сенеді</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="photo-main">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=700&q=80" alt="team working" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="photo-main-placeholder" style="display:none">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#A5B4FC"/><path d="M16 32c0-4 3.6-7 8-7s8 3 8 7" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="20" r="5" fill="#4F46E5"/></svg>
+        </div>
+      </div>
+      <div class="photo-float float-top">
+        <div class="float-label">Жауаптар</div>
+        <div class="float-val">1 248</div>
+        <div class="sparkbar">
+          <div class="spk" style="height:10px"></div>
+          <div class="spk" style="height:14px"></div>
+          <div class="spk" style="height:8px"></div>
+          <div class="spk hi" style="height:20px"></div>
+          <div class="spk hi" style="height:18px"></div>
+          <div class="spk hi" style="height:24px"></div>
+        </div>
+      </div>
+      <div class="photo-float float-bot">
+        <div class="float-label">Аяқтау жылдамдығы</div>
+        <div class="float-val">89%</div>
+        <div class="float-sub">Орташадан 23% жоғары</div>
+      </div>
+      <div class="float-bot2">
+        <div class="face-row">
+          <div class="face" style="background:#4F46E5;width:24px;height:24px;font-size:9px;border:2px solid white">АС</div>
+          <div class="face" style="background:#F59E0B;width:24px;height:24px;font-size:9px;border:2px solid white;margin-left:-6px">ДМ</div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <div style="font-size:11px;color:#475569;margin-top:2px">«Тамаша қызмет!»</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="idx-users2">12 000+</div><div class="stat-l">Белсенді пайдаланушы</div></div>
+  <div class="stat"><div class="stat-n" id="idx-responses">450 000+</div><div class="stat-l">Жиналған жауап</div></div>
+  <div class="stat"><div class="stat-n">4.9 / 5</div><div class="stat-l">Орташа баға</div></div>
+  <div class="stat"><div class="stat-n">99.9%</div><div class="stat-l">Жұмыс уақыты</div></div>
+</div>
+
+<section class="how">
+  <div class="sec-label">Қалай жұмыс істейді</div>
+  <div class="sec-title">3 қадамда пікір жинаңыз</div>
+  <div class="sec-sub">Тіркелуден бастап алғашқы жауапқа дейін — 2 минут жетеді</div>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num num-1">1</div>
+      <div class="step-title">Сауалнама жасаңыз</div>
+      <div class="step-desc">Сүйреп-тастау арқылы сұрақтар қосыңыз. 10+ сұрақ типі — таңдау, мәтін, рейтинг және т.б.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num num-2">2</div>
+      <div class="step-title">Жіберіңіз немесе бөлісіңіз</div>
+      <div class="step-desc">Сілтеме немесе веб-сайтқа қосу арқылы қолданушыларға жіберіңіз</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num num-3">3</div>
+      <div class="step-title">Нәтижені талдаңыз</div>
+      <div class="step-desc">Нақты уақытта диаграммалар мен кестелер арқылы жауаптарды бақылаңыз</div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-sec" id="demo-sec">
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <div class="sec-label">Байқап көріңіз</div>
+    <div class="sec-title">Интерактивті үлгі</div>
+  </div>
+  <div class="demo-wrap">
+    <div class="survey-card">
+      <div class="survey-top">
+        <h3 id="s-title">Қызмет сапасын бағалау</h3>
+        <p>Сіздің пікіріңіз бізге маңызды</p>
+        <div class="prog-track"><div class="prog-fill" id="prog" style="width:33%"></div></div>
+      </div>
+      <div class="survey-body">
+        <div class="q-tag" id="q-num">1-сұрақ / 3</div>
+        <div class="q-text" id="q-txt">Oylar платформасы туралы не деп ойлайсыз?</div>
+        <div class="opts" id="opts"></div>
+      </div>
+      <div class="survey-foot">
+        <span class="foot-step" id="step-lbl">1 / 3</span>
+        <div class="foot-btns">
+          <button class="sbtn sbtn-prev" id="prev-btn" onclick="prevQ()">← Артқа</button>
+          <button class="sbtn sbtn-next" id="next-btn" onclick="nextQ()">Келесі →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="photos-sec">
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <div class="sec-label">Пайдаланушылар</div>
+    <div class="sec-title">Бізбен бірге өседі</div>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card big" style="min-height:420px">
+      <img class="photo-fill" src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=80" alt="team" onerror="this.outerHTML='<div class=photo-placeholder style=background:#EEF2FF;min-height:420px><svg width=64 height=64 viewBox=0 0 64 64 fill=none><rect width=64 height=64 rx=16 fill=#C7D2FE/><path d=M20 44c0-6 5-11 12-11s12 5 12 11 stroke=#4F46E5 stroke-width=2.5 stroke-linecap=round/><circle cx=32 cy=26 r=7 fill=#4F46E5/></svg><span style=font-size:13px;color:#4F46E5;font-weight:600>Команда жұмысы</span></div>'">
+      <div class="photo-badge indigo">Команда</div>
+    </div>
+    <div class="photo-card" style="min-height:200px">
+      <img class="photo-fill" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&q=80" alt="analytics" onerror="this.outerHTML='<div class=photo-placeholder style=background:#FFFBEB><svg width=48 height=48 viewBox=0 0 48 48 fill=none><rect width=48 height=48 rx=12 fill=#FDE68A/><rect x=10 y=28 width=8 height=12 rx=2 fill=#F59E0B/><rect x=20 y=20 width=8 height=20 rx=2 fill=#F59E0B/><rect x=30 y=12 width=8 height=28 rx=2 fill=#F59E0B/></svg><span style=font-size:12px;color:#92400E;font-weight:600>Аналитика</span></div>'">
+      <div class="photo-badge">Аналитика</div>
+    </div>
+    <div class="photo-card" style="min-height:200px">
+      <img class="photo-fill" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="collaboration" onerror="this.outerHTML='<div class=photo-placeholder style=background:#FFF1F2><svg width=48 height=48 viewBox=0 0 48 48 fill=none><rect width=48 height=48 rx=12 fill=#FECDD3/><circle cx=18 cy=20 r=6 fill=#F43F5E/><circle cx=30 cy=20 r=6 fill=#F43F5E opacity=.7/><path d=M8 38c0-5 4.5-9 10-9h12c5.5 0 10 4 10 9 stroke=#F43F5E stroke-width=2 stroke-linecap=round fill=none/></svg><span style=font-size:12px;color:#9F1239;font-weight:600>Бірлесу</span></div>'">
+      <div class="photo-badge" style="background:#F43F5E;color:white">Серіктер</div>
+    </div>
+    <div class="photo-card" style="min-height:200px;grid-column:2 / span 2">
+      <img class="photo-fill" src="https://images.unsplash.com/photo-1543269664-7eef42226a21?w=700&q=80" alt="results" onerror="this.outerHTML='<div class=photo-placeholder style=background:#F0F9FF;min-height:200px><svg width=48 height=48 viewBox=0 0 48 48 fill=none><rect width=48 height=48 rx=12 fill=#BAE6FD/><path d=M8 32 L16 22 L24 28 L32 16 L40 20 stroke=#0EA5E9 stroke-width=2.5 stroke-linecap=round stroke-linejoin=round fill=none/></svg><span style=font-size:12px;color:#0C4A6E;font-weight:600>Нәтижелер</span></div>'">
+      <div class="photo-badge" style="background:#0EA5E9;color:white">Нәтижелер</div>
+    </div>
+  </div>
+</section>
+
+<section class="results-sec">
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <div class="sec-label">Аналитика</div>
+    <div class="sec-title">Нәтижелер панелі</div>
+  </div>
+  <div class="results-inner">
+    <div class="results-grid">
+      <div class="res-card">
+        <h4>Бағалар үлестірімі</h4>
+        <div class="bar-r"><span class="bar-lbl">Өте жақсы</span><div class="bar-trk"><div class="bar-f" style="width:72%;background:var(--indigo)"></div></div><span class="bar-pct">72%</span></div>
+        <div class="bar-r"><span class="bar-lbl">Жақсы</span><div class="bar-trk"><div class="bar-f" style="width:18%;background:var(--sky)"></div></div><span class="bar-pct">18%</span></div>
+        <div class="bar-r"><span class="bar-lbl">Орташа</span><div class="bar-trk"><div class="bar-f" style="width:7%;background:var(--amber)"></div></div><span class="bar-pct">7%</span></div>
+        <div class="bar-r"><span class="bar-lbl">Нашар</span><div class="bar-trk"><div class="bar-f" style="width:3%;background:var(--rose)"></div></div><span class="bar-pct">3%</span></div>
+      </div>
+      <div class="res-card">
+        <h4>Статистика</h4>
+        <div class="metrics">
+          <div class="mrow"><span class="mlbl">Жауаптар саны</span><span class="mval">1 248</span></div>
+          <div class="mrow"><span class="mlbl">Аяқтау пайызы</span><span class="mval">89%</span></div>
+          <div class="mrow"><span class="mlbl">Орташа уақыт</span><span class="mval">2 мин 14 сек</span></div>
+          <div class="mrow"><span class="mlbl">Орташа баға</span><span class="mval">4.6 / 5</span></div>
+          <div class="mrow"><span class="mlbl">NPS ұпайы</span><span class="mval" style="color:var(--indigo)">+67</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Бүгін тегін бастаңыз</h2>
+  <p>Тіркелусіз алғашқы сауалнаманызды 2 минутта жасаңыз</p>
+  <button class="cta-btn" onclick="window.location.href='/register.html'">Oylar-да тіркелу →</button>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand"><em>Oylar</em> — Пікір жинау платформасы</div>
+  <div class="footer-text">© 2026 Oylar. Барлық құқықтар қорғалған.</div>
+</footer>
+</div>
+
+<script>
+const qs=[
+  {text:"Oylar платформасы туралы не деп ойлайсыз?",opts:["Өте керемет, ұнайды","Жақсы, бірақ жақсартуға болады","Орташа деңгей","Ойлайтын нәрсе бар"]},
+  {text:"Платформаны достарыңызға ұсынар ма едіңіз?",opts:["Иә, міндетті түрде ұсынамын","Мүмкін, жағдайға байланысты","Жоқ, ұсынбаймын","Әлі шешпедім"]},
+  {text:"Сізге ең маңызды функция қайсы?",opts:["Жылдамдық пен қарапайымдылық","Терең аналитика","Жауаптарды бөлісу","Қолдау қызметі"]}
+];
+let cur=0,ans={};
+function renderQ(){
+  const q=qs[cur];
+  document.getElementById('q-num').textContent=(cur+1)+'-сұрақ / '+qs.length;
+  document.getElementById('q-txt').textContent=q.text;
+  document.getElementById('step-lbl').textContent=(cur+1)+' / '+qs.length;
+  document.getElementById('prog').style.width=(((cur+1)/qs.length)*100)+'%';
+  document.getElementById('prev-btn').style.opacity=cur===0?'0.4':'1';
+  document.getElementById('next-btn').textContent=cur===qs.length-1?'Жіберу ✓':'Келесі →';
+  const c=document.getElementById('opts');c.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='opt'+(ans[cur]===i?' sel':'');
+    d.innerHTML='<div class="opt-radio"></div><span class="opt-txt">'+o+'</span>';
+    d.onclick=()=>{ans[cur]=i;renderQ()};
+    c.appendChild(d);
+  });
+}
+function nextQ(){if(cur<qs.length-1){cur++;renderQ();}else{document.querySelector('.survey-body').innerHTML='<div style="text-align:center;padding:2rem 0"><div style="width:56px;height:56px;background:#EEF2FF;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem"><svg width=24 height=24 viewBox="0 0 24 24" fill=none><path d="M5 13l4 4L19 7" stroke="#4F46E5" stroke-width=2.5 stroke-linecap=round stroke-linejoin=round/></svg></div><div style="font-size:20px;font-weight:700;color:#0F172A;margin-bottom:8px">Рахмет!</div><div style="font-size:14px;color:#475569">Жауаптарыңыз жіберілді</div></div>';document.querySelector('.survey-foot').style.display='none';document.getElementById('prog').style.width='100%';}}
+function prevQ(){if(cur>0){cur--;renderQ();}}
+renderQ();
+
+const userStr = localStorage.getItem('user');
+const user = userStr && userStr !== 'undefined' && userStr !== 'null' ? JSON.parse(userStr) : null;
+function renderNav() {
+  const nr = document.getElementById('nav-right');
+  if (user) {
+    const avatarHtml = user.avatarUrl 
+      ? `<img src="${user.avatarUrl}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid var(--slate-100)">`
+      : `<div style="width:28px;height:28px;border-radius:50%;background:var(--indigo);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">${user.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>`;
+    nr.innerHTML = `
+      <a href="/main.html" class="btn btn-ghost" style="font-size:13px;padding:7px 14px">Басты бет</a>
+      <a href="/dashboard.html" class="btn btn-indigo" style="display:flex;align-items:center;gap:8px;font-size:13px;padding:7px 14px">
+        ${avatarHtml}
+        Жеке кабинет
+      </a>`;
+  }
+}
+renderNav();
+
+fetch('/api/surveys/stats').then(r=>r.json()).then(s=>{
+  if(s.users) { document.getElementById('idx-users1').textContent = s.users; document.getElementById('idx-users2').textContent = s.users; }
+  if(s.responses) document.getElementById('idx-responses').textContent = s.responses;
+}).catch(e=>{});
+</script>

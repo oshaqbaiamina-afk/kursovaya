@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тіркелу — Oylar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --indigo:#4F46E5;--indigo-d:#3730A3;--indigo-l:#EEF2FF;
+  --amber:#F59E0B;--amber-l:#FFFBEB;--amber-d:#92400E;
+  --rose:#F43F5E;--rose-l:#FFF1F2;--rose-d:#9F1239;
+  --sky:#0EA5E9;--sky-l:#F0F9FF;
+  --green:#10B981;--green-l:#ECFDF5;
+  --slate:#0F172A;--slate-600:#475569;--slate-300:#CBD5E1;--slate-100:#F1F5F9;
+  --white:#fff;
+}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--white);color:var(--slate);min-height:100vh;display:flex;flex-direction:column}
+ 
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:68px;background:var(--white);border-bottom:1px solid var(--slate-300)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:38px;height:38px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.brand-mark svg{width:20px;height:20px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
+.brand-name{font-size:20px;font-weight:700;color:var(--slate);letter-spacing:-0.5px}
+.brand-name em{color:var(--indigo);font-style:normal}
+.nav-right{display:flex;gap:10px;align-items:center}
+.btn{padding:9px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-ghost{background:transparent;color:var(--slate-600);border:1px solid var(--slate-300)}
+.btn-ghost:hover{background:var(--slate-100)}
+.btn-indigo{background:var(--indigo);color:white}
+.btn-indigo:hover{background:var(--indigo-d)}
+.btn-full{width:100%;padding:13px 20px;font-size:15px}
+ 
+/* ── LAYOUT ── */
+.page-body{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 68px)}
+ 
+/* ── ФОРМА ЖАҒЫ ── */
+.form-side{display:flex;align-items:center;justify-content:center;padding:3rem 2rem;background:var(--white)}
+.form-wrap{width:100%;max-width:420px}
+ 
+.form-eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--indigo-l);color:var(--indigo-d);font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:1.5rem;letter-spacing:.3px}
+.form-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--indigo)}
+ 
+.form-title{font-size:30px;font-weight:700;color:var(--slate);letter-spacing:-.5px;line-height:1.2;margin-bottom:.5rem}
+.form-title mark{background:none;color:var(--indigo);border-bottom:3px solid var(--amber)}
+.form-sub{font-size:15px;color:var(--slate-600);margin-bottom:2rem;line-height:1.6}
+ 
+.form-group{margin-bottom:1.1rem}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px}
+ 
+.input-wrap{position:relative}
+.form-input{
+  width:100%;padding:11px 14px;
+  border:1.5px solid var(--slate-300);
+  border-radius:9px;font-size:14px;
+  font-family:inherit;color:var(--slate);
+  background:var(--white);outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.form-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.form-input::placeholder{color:var(--slate-300)}
+.form-input.error{border-color:var(--rose);box-shadow:0 0 0 3px rgba(244,63,94,.1)}
+ 
+.input-error{font-size:12px;color:var(--rose);margin-top:5px;display:none}
+.input-error.show{display:block}
+ 
+/* Пароль көрсету батырмасы */
+.pass-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--slate-300);padding:4px;display:flex;align-items:center;transition:color .15s}
+.pass-toggle:hover{color:var(--slate-600)}
+ 
+/* Alert */
+.alert{padding:12px 16px;border-radius:9px;font-size:14px;margin-bottom:1.2rem;display:none;align-items:center;gap:8px}
+.alert.show{display:flex}
+.alert-error{background:var(--rose-l);color:var(--rose-d);border:1px solid #FECDD3}
+.alert-success{background:var(--green-l);color:#065F46;border:1px solid #A7F3D0}
+ 
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:1.2rem 0;color:var(--slate-300);font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--slate-300)}
+ 
+.form-footer{text-align:center;margin-top:1.2rem;font-size:14px;color:var(--slate-600)}
+.form-footer a{color:var(--indigo);font-weight:600;text-decoration:none}
+.form-footer a:hover{text-decoration:underline}
+
+/* Пароль strength (optional for visual touch) */
+.strength-bar{display:flex;gap:4px;margin-top:8px}
+.strength-seg{flex:1;height:3px;border-radius:2px;background:var(--slate-300);transition:background .3s}
+.strength-seg.weak{background:var(--rose)}
+.strength-seg.medium{background:var(--amber)}
+.strength-seg.strong{background:#10B981}
+.strength-label{font-size:11px;color:var(--slate-600);margin-top:4px}
+ 
+/* ── ВИЗУАЛ ЖАҒЫ ── */
+.visual-side{background:var(--indigo-l);display:flex;align-items:center;justify-content:center;padding:3rem 2rem;position:relative;overflow:hidden}
+.deco-circle{position:absolute;border-radius:50%;opacity:.06}
+.deco-1{width:420px;height:420px;background:var(--indigo);top:-120px;right:-80px}
+.deco-2{width:260px;height:260px;background:var(--indigo);bottom:-80px;left:-60px}
+ 
+.visual-inner{width:100%;max-width:400px;position:relative;z-index:1}
+ 
+/* Карточкалар */
+.v-card{background:var(--white);border-radius:16px;border:1px solid var(--slate-300);padding:1.5rem;margin-bottom:1rem}
+.v-card:last-child{margin-bottom:0}
+ 
+.vc-head{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.vc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vc-icon-indigo{background:var(--indigo-l)}
+.vc-icon-amber{background:var(--amber-l)}
+.vc-icon-green{background:var(--green-l)}
+.vc-title{font-size:14px;font-weight:700;color:var(--slate)}
+.vc-sub{font-size:12px;color:var(--slate-600);margin-top:1px}
+
+/* Mini-bars (Жауаптар динамикасы) */
+.mini-bars{display:flex;gap:6px;align-items:flex-end;height:48px}
+.mini-bar{flex:1;border-radius:4px 4px 0 0;background:var(--indigo);opacity:.2;transition:opacity .3s}
+.mini-bar.hi{opacity:1}
+ 
+/* Жауап санақтары */
+.count-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--slate-100)}
+.count-row:last-child{border:none}
+.count-label{font-size:13px;color:var(--slate-600)}
+.count-val{font-size:16px;font-weight:700;color:var(--indigo)}
+ 
+/* Sparkline */
+.sparkline{display:flex;gap:4px;align-items:flex-end;height:36px;margin-top:10px}
+.spark{border-radius:3px 3px 0 0;background:var(--indigo);flex:1;opacity:.25;transition:opacity .3s}
+.spark.hi{opacity:1}
+ 
+/* ── FOOTER ── */
+.footer{background:var(--slate);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-size:16px;font-weight:700;color:white}
+.footer-brand em{color:#818CF8;font-style:normal}
+.footer-text{font-size:13px;color:rgba(255,255,255,.5)}
+ 
+@media(max-width:768px){
+  .page-body{grid-template-columns:1fr}
+  .visual-side{display:none}
+  .form-side{padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="brand" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') { window.location.reload(); return false; }">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M4 8h4M16 8h4M4 16h4M16 16h4"/></svg>
+    </div>
+    <span class="brand-name"><em>Oylar</em></span>
+  </a>
+  <div class="nav-right">
+    <!-- Для регистрации кнопка входа прозрачная, а регистрации залитая -->
+    <a href="login.html" class="btn btn-ghost">Кіру</a>
+    <a href="register.html" class="btn btn-indigo">Тіркелу</a>
+  </div>
+</nav>
+ 
+<!-- MAIN -->
+<div class="page-body">
+ 
+  <!-- ── ФОРМА ── -->
+  <div class="form-side">
+    <div class="form-wrap">
+ 
+      <div class="form-eyebrow">
+        <div class="form-eyebrow-dot"></div>
+        Тегін және жылдам
+      </div>
+ 
+      <h1 class="form-title">Аккаунт<br><mark>жасаңыз</mark></h1>
+      <p class="form-sub">Сауалнамаларды құруды бастау үшін тіркеліңіз</p>
+ 
+      <div class="alert alert-error" id="alert-error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="alert-text"></span>
+      </div>
+ 
+      <form id="register-form" novalidate>
+ 
+        <div class="form-group">
+          <label class="form-label" for="name">Аты-жөні</label>
+          <input class="form-input" type="text" id="name"
+            placeholder="Алтын Бекова" autocomplete="name" required>
+          <div class="input-error" id="name-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email"
+            placeholder="altyn@mail.kz" autocomplete="email" required>
+          <div class="input-error" id="email-error"></div>
+        </div>
+ 
+        <div class="form-group">
+          <label class="form-label" for="password">Пароль</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="password"
+              placeholder="Кем дегенде 6 таңба" autocomplete="new-password"
+              required minlength="6" style="padding-right:44px" oninput="checkStrength(this.value)">
+            <button type="button" class="pass-toggle" onclick="togglePass('password', 'eye-icon-1')">
+              <svg id="eye-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Пароль strength indicator -->
+          <div class="strength-bar" id="strength-bar">
+            <div class="strength-seg" id="s1"></div>
+            <div class="strength-seg" id="s2"></div>
+            <div class="strength-seg" id="s3"></div>
+          </div>
+          <div class="strength-label" id="strength-label"></div>
+
+          <div class="input-error" id="password-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm">Парольді растау</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="confirm"
+              placeholder="Парольді қайталаңыз" autocomplete="new-password"
+              required minlength="6" style="padding-right:44px">
+            <button type="button" class="pass-toggle" onclick="togglePass('confirm', 'eye-icon-2')">
+              <svg id="eye-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="input-error" id="confirm-error"></div>
+        </div>
+ 
+        <button class="btn btn-indigo btn-full" type="submit" id="submit-btn" style="margin-top:.8rem">
+          Тіркелу →
+        </button>
+ 
+      </form>
+ 
+      <div class="divider">немесе</div>
+ 
+      <div class="form-footer">
+        Тіркелгенсіз бе? <a href="/login.html">Алдымен кіру</a>
+      </div>
+ 
+    </div>
+  </div>
+ 
+  <!-- ── ВИЗУАЛ ── -->
+  <div class="visual-side">
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
+ 
+    <div class="visual-inner">
+ 
+      <!-- Карточка 1 — Динамика (вместо активности) -->
+      <div class="v-card">
+        <div class="vc-head">
+          <div class="vc-icon vc-icon-indigo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div>
+            <div class="vc-title">Жылдам өсу мен тұрақтылық</div>
+            <div class="vc-sub">Қосымша жүктемесіз статистика</div>
+          </div>
+        </div>
+        
+        <div class="mini-bars" style="margin-top: 1rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 8px;">
+          <!-- 7 күн үшін жасанды бағандар -->
+          <div class="mini-bar" style="height:30%"></div>
+          <div class="mini-bar" style="height:50%"></div>
+          <div class="mini-bar" style="height:40%"></div>
+          <div class="mini-bar hi" style="height:70%"></div>
+          <div class="mini-bar hi" style="height:60%"></div>
+          <div class="mini-bar hi" style="height:85%"></div>
+          <div class="mini-bar hi" style="height:100%"></div>
+        </div>
+        <div style="font-size: 13px; color: var(--slate-600); margin-top: 10px; display: flex; justify-content: space-between;">
+          <span>Осы аптадағы прогресс</span>
+          <span style="color:var(--indigo); font-weight: 600;">+34%</span>
+        </div>
+      </div>
+ 
+      <!-- Карточка 2 — санақтар -->
+      <div class="v-card">
+        <div class="vc-head" style="margin-bottom:.8rem">
+          <div class="vc-icon vc-icon-amber">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </div>
+          <div>
+            <div class="vc-title">Платформа статистикасы</div>
+            <div class="vc-sub">Барлық уақытта</div>
+          </div>
+        </div>
+        <div class="count-row">
+          <span class="count-label">Жиналған жауап</span>
+          <span class="count-val">450 000+</span>
+        </div>
+        <div class="count-row">
+          <span class="count-label">Белсенді сауалнама</span>
+          <span class="count-val">8 240</span>
+        </div>
+        <div class="count-row">
+          <span class="count-label">Тіркелген пайдаланушы</span>
+          <span class="count-val">12 000+</span>
+        </div>
+        <div class="sparkline">
+          <div class="spark" style="height:30%"></div>
+          <div class="spark" style="height:45%"></div>
+          <div class="spark" style="height:35%"></div>
+          <div class="spark" style="height:55%"></div>
+          <div class="spark hi" style="height:65%"></div>
+          <div class="spark hi" style="height:80%"></div>
+          <div class="spark hi" style="height:100%"></div>
+        </div>
+      </div>
+ 
+      <!-- Карточка 3 — рейтинг -->
+      <div class="v-card">
+        <div class="vc-head" style="margin-bottom:.8rem">
+          <div class="vc-icon vc-icon-green">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="vc-title">Пайдаланушы пікірі</div>
+            <div class="vc-sub">4.9 / 5 орташа баға</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:12px;color:var(--slate-600);width:16px">5★</span>
+            <div style="flex:1;height:6px;background:var(--slate-100);border-radius:3px;overflow:hidden">
+              <div style="height:100%;border-radius:3px;background:#10B981;width:82%"></div>
+            </div>
+            <span style="font-size:12px;font-weight:600;color:var(--slate);width:28px;text-align:right">82%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:12px;color:var(--slate-600);width:16px">4★</span>
+            <div style="flex:1;height:6px;background:var(--slate-100);border-radius:3px;overflow:hidden">
+              <div style="height:100%;border-radius:3px;background:#10B981;width:13%;opacity:.6"></div>
+            </div>
+            <span style="font-size:12px;font-weight:600;color:var(--slate);width:28px;text-align:right">13%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:12px;color:var(--slate-600);width:16px">3★</span>
+            <div style="flex:1;height:6px;background:var(--slate-100);border-radius:3px;overflow:hidden">
+              <div style="height:100%;border-radius:3px;background:var(--amber);width:5%"></div>
+            </div>
+            <span style="font-size:12px;font-weight:600;color:var(--slate);width:28px;text-align:right">5%</span>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+</div>
+ 
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand"><em>Oylar</em></div>
+  <div class="footer-text">© 2026 Oylar — Барлық құқықтар қорғалған</div>
+</footer>
+ 
+<script>
+// Авторизацияланған болса басты бетке
+if (localStorage.getItem('token')) window.location.href = '/main.html';
+ 
+// Пароль көрсету/жасыру жүйесі
+let passVisible = { password: false, confirm: false };
+
+function togglePass(inputId, iconId) {
+  passVisible[inputId] = !passVisible[inputId];
+  const input = document.getElementById(inputId);
+  const icon  = document.getElementById(iconId);
+  input.type  = passVisible[inputId] ? 'text' : 'password';
+  
+  icon.innerHTML = passVisible[inputId]
+    ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
+    : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+    
+  event.currentTarget.style.color = passVisible[inputId] ? 'var(--indigo)' : 'var(--slate-300)';
+}
+
+// Пароль күшін тексеру (optional decoration)
+function checkStrength(val) {
+  const s1 = document.getElementById('s1');
+  const s2 = document.getElementById('s2');
+  const s3 = document.getElementById('s3');
+  const lbl = document.getElementById('strength-label');
+  const cls = ['weak','medium','strong'];
+ 
+  s1.className = 'strength-seg';
+  s2.className = 'strength-seg';
+  s3.className = 'strength-seg';
+  lbl.textContent = '';
+ 
+  if (!val) return;
+ 
+  let score = 0;
+  if (val.length >= 6) score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+ 
+  const labels = ['', 'Әлсіз', 'Орташа', 'Күшті'];
+  lbl.textContent = labels[score];
+  lbl.style.color = ['','#F43F5E','#F59E0B','#10B981'][score];
+ 
+  if (score >= 1) s1.classList.add(cls[score - 1]);
+  if (score >= 2) s2.classList.add(cls[score - 1]);
+  if (score >= 3) s3.classList.add(cls[score - 1]);
+}
+ 
+// Форма submit
+document.getElementById('register-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+ 
+  const name     = document.getElementById('name').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm  = document.getElementById('confirm').value;
+  const btn      = document.getElementById('submit-btn');
+ 
+  // Қателерді тазалау
+  ['name', 'email', 'password', 'confirm'].forEach(k => {
+    const el = document.getElementById(k + '-error');
+    if(el) { el.textContent = ''; el.classList.remove('show'); }
+  });
+  document.getElementById('alert-error').classList.remove('show');
+ 
+  // Жергілікті валидация
+  let valid = true;
+  
+  if (!name) {
+    showFieldError('name-error', 'Атыңызды енгізіңіз');
+    document.getElementById('name').classList.add('error');
+    valid = false;
+  }
+  
+  // Электрон почтаны тексеру (қарапайым regex)
+  if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    showFieldError('email-error', 'Дұрыс электронды пошта енгізіңіз');
+    document.getElementById('email').classList.add('error');
+    valid = false;
+  }
+  
+  if (password.length < 6) {
+    showFieldError('password-error', 'Пароль кем дегенде 6 таңба болуы керек');
+    document.getElementById('password').classList.add('error');
+    valid = false;
+  }
+  
+  // Парольді растауды тексеру
+  if (password !== confirm || !confirm) {
+    showFieldError('confirm-error', 'Парольдер сәйкес келмейді');
+    document.getElementById('confirm').classList.add('error');
+    valid = false;
+  }
+  
+  if (!valid) return;
+ 
+  // Сұраныс
+  btn.disabled    = true;
+  btn.textContent = 'Жүктелуде...';
+ 
+  try {
+    const res  = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await res.json();
+ 
+    if (!res.ok) {
+      showError(data.error || 'Қате орын алды, қайта байқап көріңіз');
+      return;
+    }
+ 
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+ 
+    // Redirect 
+    window.location.href = '/main.html';
+ 
+  } catch (e) {
+    showError('Сервермен байланыс жоқ. Кейінірек қайталаңыз.');
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Тіркелу →';
+  }
+});
+ 
+// Input өзгергенде қатені алып тастау
+['name', 'email','password', 'confirm'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('error');
+  });
+});
+ 
+function showFieldError(id, msg) {
+  const el = document.getElementById(id);
+  if(el) {
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+}
+ 
+function showError(msg) {
+  document.getElementById('alert-text').textContent = msg;
+  document.getElementById('alert-error').classList.add('show');
+}
+</script>
+</body>
+</html>
